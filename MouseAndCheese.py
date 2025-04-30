@@ -13,6 +13,7 @@ class Box(pygame.sprite.Sprite):
         self.width = box_width
         self.height = box_height
         self.q_value = q_value
+        self.isWall = False
 
 def moves_possible(current_state, grid):
     x, y = current_state
@@ -39,11 +40,12 @@ def get_random_wall_positions(grid_size, num_walls, forbidden):
 def build_walls(grid, wall_positions):
     for x, y in wall_positions:
         grid[x][y].q_value = -100.00
+        grid[x][y].isWall = True
 
 if __name__ == "__main__":
     pygame.init()
     screen = pygame.display.set_mode((600, 600))
-    pygame.display.set_caption("Cat and Cheese Grid")
+    pygame.display.set_caption("Mouse and Cheese Grid")
     font = pygame.font.SysFont("courier-new", 10)
 
     grid_size = 10
@@ -63,8 +65,8 @@ if __name__ == "__main__":
     wall_positions = get_random_wall_positions(grid_size, num_walls, forbidden)
     build_walls(grid, wall_positions)
 
-    cat_img = pygame.image.load('assets/cat.png')
-    cat_img = pygame.transform.scale(cat_img, (box_width, box_height))
+    mouse_img = pygame.image.load('assets/mouse.png')
+    mouse_img = pygame.transform.scale(mouse_img, (box_width, box_height))
     cheese_img = pygame.image.load('assets/cheese.png')
     cheese_img = pygame.transform.scale(cheese_img, (box_width, box_height))
     wall_img = pygame.image.load('assets/wall.png')
@@ -88,7 +90,7 @@ if __name__ == "__main__":
                     screen.blit(q_value_display, text_rect)
 
                 if (row, col) == (0, 0):
-                    screen.blit(cat_img, box.rect)
+                    screen.blit(mouse_img, box.rect)
                 elif (row, col) == (grid_size-1, grid_size-1):
                     screen.blit(cheese_img, box.rect)
                 elif (row, col) in wall_positions:
